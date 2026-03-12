@@ -110,6 +110,9 @@ if [ -n "$golang_commit" ]; then
 		tar -xz -C "feeds/packages/lang" --strip=2 "packages-$golang_commit/lang/golang"
 fi
 
+# Allow Go to auto-download newer toolchains if go.mod requires it (bypassing SDK host toolchain issues)
+find feeds/packages/lang/golang/ -type f -exec sed -i 's/GOTOOLCHAIN=local//g' {} +
+
 if [ -h "package/${package_name}" ] ; then
 	rm -f "package/${package_name}"
 fi
